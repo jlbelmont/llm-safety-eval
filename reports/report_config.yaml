@@ -1,0 +1,25 @@
+meta:
+  title: "LLM Safety Evaluation Report"
+  authors:
+    - "First Author"
+    - "Second Author"
+  affiliations:
+    - "Org / Lab 1"
+    - "Org / Lab 2"
+  date: "\\today"
+template_dir: reports/templates
+template_name: research_report.tex.jinja
+sections_dir: reports/sections
+section_order:
+  - abstract
+  - intro
+  - related
+  - methods
+  - experiments
+  - results
+  - discussion
+  - limitations
+  - future_work
+  - conclusion
+  - appendix
+bibliography: reports/refs.bib

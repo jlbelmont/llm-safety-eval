@@ -1,0 +1,28 @@
+providers:
+  - provider_id: openai
+    api_type: openai_compatible
+    base_url: https://api.openai.com/v1
+    api_key_env: OPENAI_API_KEY
+    provider_notes: "OpenAI GPT-4o primary endpoint"
+    rate_limit_per_min: 60
+    backoff_seconds: 1.0
+    max_requests_per_minute: 60
+  - provider_id: ollama
+    api_type: ollama
+    base_url: http://localhost:11434
+    backoff_seconds: 0.5
+  - provider_id: vllm
+    api_type: vllm
+    base_url: http://localhost:8000/v1
+    backoff_seconds: 0.5
+  - provider_id: llamacpp
+    api_type: llamacpp
+    base_url: http://localhost:8080
+    backoff_seconds: 0.5
+  - provider_id: tgi
+    api_type: text-generation-inference
+    base_url: http://localhost:8081
+    backoff_seconds: 0.5
+  - provider_id: mock
+    api_type: mock
+    base_url: http://localhost/mock

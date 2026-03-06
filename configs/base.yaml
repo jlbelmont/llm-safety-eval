@@ -1,0 +1,11 @@
+run:
+  seed: 42
+  output_dir: runs
+  max_retries: 2
+  retry_backoff_seconds: 1.5
+  timeout_seconds: 30
+  log_level: INFO
+paths:
+  prompt_suite: prompts/prompt_suites.yaml
+  providers: configs/providers.yaml
+  models: configs/models.yaml

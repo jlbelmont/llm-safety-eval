@@ -1,0 +1,92 @@
+# ---- Sensitive prompt data (avoid releasing adversarial datasets) ----
+prompts/*.yaml
+prompts/*.json
+prompts/*.jsonl
+prompts/*.csv
+prompts/private/
+prompts/generated/
+!prompts/README.md
+!src/llm_safety_eval/prompts/
+
+# ---- Model weights/checkpoints (large) ----
+models/
+weights/
+checkpoints/
+*.bin
+*.safetensors
+*.pt
+*.pth
+*.gguf
+*.onnx
+.cache/huggingface/
+~/.cache/huggingface/
+.cache/torch/
+
+# ---- Experiment outputs (regenerable) ----
+runs/
+!runs/.gitkeep
+analysis_outputs/
+results/
+logs/
+reports/build/
+reports/**/*.pdf
+reports/**/*.aux
+reports/**/*.log
+reports/**/*.out
+reports/**/*.toc
+reports/**/*.bbl
+reports/**/*.blg
+reports/**/*.fls
+reports/**/*.fdb_latexmk
+reports/**/*.synctex.gz
+
+# ---- Notebook artifacts ----
+notebooks/_artifacts/
+!notebooks/_artifacts/.gitkeep
+.ipynb_checkpoints/
+
+# ---- Environment / secrets ----
+.env
+.env.*
+secrets.yaml
+configs/private.yaml
+
+# ---- Local datasets ----
+data/
+datasets/
+downloads/
+
+# ---- Temp files ----
+*.log
+*.tmp
+*.cache
+*.pickle
+*.pkl
+
+# ---- Report generation artifacts ----
+# Keep templates, sections, .tex sources, and .bib tracked; ignore generated outputs above.
+
+# ---- Python build/cache ----
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+build/
+dist/
+*.egg-info/
+
+# ---- Editor / OS ----
+.vscode/
+.idea/
+.DS_Store
+
+# ---- Keep framework code visible ----
+!src/
+!docs/
+!configs/
+!tests/
+!scripts/
+!README.md
+!LICENSE
+!pyproject.toml
+!Makefile

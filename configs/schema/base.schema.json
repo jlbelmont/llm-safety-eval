@@ -1,0 +1,28 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "type": "object",
+  "properties": {
+    "run": {
+      "type": "object",
+      "properties": {
+        "seed": {"type": "integer"},
+        "output_dir": {"type": "string"},
+        "max_retries": {"type": "integer"},
+        "retry_backoff_seconds": {"type": "number"},
+        "timeout_seconds": {"type": "integer"},
+        "log_level": {"type": "string"}
+      },
+      "required": ["seed", "output_dir"]
+    },
+    "paths": {
+      "type": "object",
+      "properties": {
+        "prompt_suite": {"type": "string"},
+        "providers": {"type": "string"},
+        "models": {"type": "string"}
+      },
+      "required": ["prompt_suite", "providers", "models"]
+    }
+  },
+  "required": ["run", "paths"]
+}

@@ -1,0 +1,18 @@
+matrix:
+  models:
+    - gpt4o_api
+    - mock_safe
+  prompt_categories:
+    - baseline_direct
+    - roleplay
+    - fictional
+    - decomposition
+    - obfuscation
+    - benign_control
+  transforms:
+    - none
+    - safety_prefix
+  trials: 1
+  generation_parameters:
+    temperature: [0.2]
+    max_tokens: [2048]

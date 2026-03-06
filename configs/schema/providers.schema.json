@@ -1,0 +1,25 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "type": "object",
+  "properties": {
+    "providers": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "provider_id": {"type": "string"},
+          "api_type": {"type": "string"},
+          "base_url": {"type": "string"},
+          "api_key_env": {"type": ["string", "null"]},
+          "provider_notes": {"type": ["string", "null"]},
+          "rate_limit_per_min": {"type": ["integer", "null"]},
+          "backoff_seconds": {"type": ["number", "null"]},
+          "max_requests_per_minute": {"type": ["integer", "null"]},
+          "extra": {"type": ["object", "null"]}
+        },
+        "required": ["provider_id", "api_type", "base_url"]
+      }
+    }
+  },
+  "required": ["providers"]
+}

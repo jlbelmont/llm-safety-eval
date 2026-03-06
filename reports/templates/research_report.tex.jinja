@@ -1,0 +1,34 @@
+\documentclass[11pt]{article}
+\usepackage[margin=1in]{geometry}
+\usepackage{graphicx}
+\usepackage{booktabs}
+\usepackage{hyperref}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{enumitem}
+
+\title{{ {{ meta.title }} }}
+\author{
+{%- for author in meta.authors %}
+  {{ author }}{% if not loop.last %} \\ {% endif %}
+{%- endfor %}
+\\
+{%- for affil in meta.affiliations %}
+  {{ affil }}{% if not loop.last %} \\ {% endif %}
+{%- endfor %}
+}
+\date{{ {{ meta.date }} }}
+
+\begin{document}
+\maketitle
+
+{% for name, content in sections.items() %}
+\section*{{{{ name | replace('_',' ') | title }}}}
+{{ content }}
+{% endfor %}
+
+{% if bibliography %}
+\bibliographystyle{plain}
+\bibliography{ {{ bibliography }} }
+{% endif %}
+\end{document}

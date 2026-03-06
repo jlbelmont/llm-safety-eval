@@ -1,0 +1,25 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "type": "object",
+  "properties": {
+    "matrix": {
+      "type": "object",
+      "properties": {
+        "models": {"type": "array", "items": {"type": "string"}},
+        "prompt_categories": {"type": "array", "items": {"type": "string"}},
+        "transforms": {"type": "array", "items": {"type": "string"}},
+        "trials": {"type": "integer"},
+        "generation_parameters": {
+          "type": "object",
+          "properties": {
+            "temperature": {"type": "array", "items": {"type": "number"}},
+            "max_tokens": {"type": "array", "items": {"type": "integer"}}
+          },
+          "required": ["temperature", "max_tokens"]
+        }
+      },
+      "required": ["models", "prompt_categories", "transforms", "trials", "generation_parameters"]
+    }
+  },
+  "required": ["matrix"]
+}

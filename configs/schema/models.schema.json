@@ -1,0 +1,21 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "type": "object",
+  "properties": {
+    "models": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "model_id": {"type": "string"},
+          "provider_id": {"type": "string"},
+          "model_name": {"type": "string"},
+          "model_version": {"type": ["string", "null"]},
+          "generation_parameters": {"type": "object"}
+        },
+        "required": ["model_id", "provider_id", "model_name"]
+      }
+    }
+  },
+  "required": ["models"]
+}
