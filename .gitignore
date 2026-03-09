@@ -28,21 +28,10 @@ runs/
 analysis_outputs/
 results/
 logs/
-reports/build/
-reports/**/*.pdf
-reports/**/*.aux
-reports/**/*.log
-reports/**/*.out
-reports/**/*.toc
-reports/**/*.bbl
-reports/**/*.blg
-reports/**/*.fls
-reports/**/*.fdb_latexmk
-reports/**/*.synctex.gz
+reports/
 
 # ---- Notebook artifacts ----
-notebooks/_artifacts/
-!notebooks/_artifacts/.gitkeep
+notebooks/
 .ipynb_checkpoints/
 
 # ---- Environment / secrets ----
@@ -70,15 +59,11 @@ report.tex
 report.pdf
 report.aux
 report.out
-prompt_sum.md
-prompt_sum*.md
 
-# ---- Local AI drafting / template work ----
-docs/report_generation_prompt.md
-reports/templates/
-ai_drafts/
-ai_exports/
-llm_drafts/
+# ---- Local auxiliary sources ----
+*_drafts/
+*_exports/
+*_notes/
 prompts/private_notes/
 
 # ---- Generic LaTeX artifacts ----
@@ -104,9 +89,6 @@ prompts/private_notes/
 *.cache
 *.pickle
 *.pkl
-agent/
-codex/
-ai_notes/
 scratch/
 tmp/
 experiments_tmp/
