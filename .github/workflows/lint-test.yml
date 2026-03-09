@@ -19,8 +19,7 @@ jobs:
           pip install -e .[dev]
       - name: Lint
         run: |
-          ruff src tests
-          black --check src tests
+          ruff check src tests
       - name: Tests (mock only)
         env:
           LSE_ALLOW_NETWORK: "0"

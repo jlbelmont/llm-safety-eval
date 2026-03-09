@@ -34,7 +34,7 @@ def label(
         label_value = _prompt_label(resp)
         labeled.append(LabelRecord(**resp.model_dump(), label=label_value, labeler=labeler))
 
-    write_jsonl(output_path, [l.model_dump() for l in labeled])
+    write_jsonl(output_path, [label.model_dump() for label in labeled])
     typer.echo(f"Wrote {len(labeled)} labels to {output_path}")
 
 

@@ -1,5 +1,4 @@
 from llm_safety_eval.util.rate_limit import TokenBucket
-import time
 
 
 def test_token_bucket_waits():

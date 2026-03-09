@@ -16,7 +16,7 @@ def prompt_text_map(prompt_suite_path: Path) -> dict[str, str]:
 
     data = yaml.safe_load(prompt_suite_path.read_text()) or {}
     mapping = {}
-    for cat, payload in data.get("categories", {}).items():
+    for _category, payload in data.get("categories", {}).items():
         for p in payload.get("prompts", []):
             mapping[p["prompt_id"]] = p.get("text", "")
     return mapping

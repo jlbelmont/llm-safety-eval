@@ -1,6 +1,5 @@
 from llm_safety_eval.llm_clients.base import ClientRegistry
 from llm_safety_eval.data_models import ModelConfig, ProviderConfig
-import os
 from llm_safety_eval.cli import app as cli_app
 import typer.testing
 
