@@ -23,3 +23,5 @@ section_order:
   - conclusion
   - appendix
 bibliography: reports/refs.bib
+run_summary: null
+analysis_artifacts: []

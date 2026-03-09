@@ -19,6 +19,48 @@
         }
       },
       "required": ["models", "prompt_categories", "transforms", "trials", "generation_parameters"]
+    },
+    "experiments": {
+      "type": "object",
+      "additionalProperties": {
+        "type": "object",
+        "properties": {
+          "categories": {"type": "array", "items": {"type": "string"}},
+          "transforms": {"type": "array", "items": {"type": "string"}},
+          "models": {"type": "array", "items": {"type": "string"}},
+          "groups": {
+            "type": "object",
+            "additionalProperties": {
+              "type": "object",
+              "properties": {
+                "categories": {"type": "array", "items": {"type": "string"}},
+                "transforms": {"type": "array", "items": {"type": "string"}},
+                "models": {"type": "array", "items": {"type": "string"}}
+              }
+            }
+          }
+        }
+      }
+    },
+    "generated_prompts": {
+      "type": "object",
+      "properties": {
+        "enabled": {"type": "boolean"},
+        "requests": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "category": {"type": "string"},
+              "attack_style": {"type": "string"},
+              "count": {"type": "integer", "minimum": 1},
+              "seed": {"type": "integer"},
+              "example_prompt_id": {"type": "string"}
+            },
+            "required": ["category", "attack_style"]
+          }
+        }
+      }
     }
   },
   "required": ["matrix"]

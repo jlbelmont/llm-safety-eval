@@ -31,7 +31,7 @@ class OpenAIClient(LLMClient):
             "messages": [{"role": "user", "content": prompt}],
             **parameters,
         }
-        with httpx.Client(timeout=60.0, headers=headers) as client:
+        with httpx.Client(timeout=self._timeout_seconds(60.0), headers=headers) as client:
             resp = client.post(f"{self.provider_config.base_url}/chat/completions", json=payload)
             resp.raise_for_status()
             data = resp.json()

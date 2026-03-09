@@ -17,6 +17,7 @@ class ProviderConfig(BaseModel):
     rate_limit_per_min: Optional[int] = None
     backoff_seconds: Optional[float] = None
     max_requests_per_minute: Optional[int] = None
+    timeout_seconds: Optional[float] = None
     extra: dict[str, Any] = Field(default_factory=dict)
 
 

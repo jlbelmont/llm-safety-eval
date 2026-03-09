@@ -52,6 +52,14 @@ class LLMClient:
     ) -> GenerationResult:  # pragma: no cover - interface
         raise NotImplementedError
 
+    def _timeout_seconds(self, default: float) -> float:
+        if self.provider_config.timeout_seconds is not None:
+            return float(self.provider_config.timeout_seconds)
+        extra_timeout = self.provider_config.extra.get("timeout_seconds")
+        if extra_timeout is not None:
+            return float(extra_timeout)
+        return default
+
     def _respect_rate_limit(self) -> None:
         """Simple polite backoff using provider backoff_seconds."""
 
@@ -95,7 +103,7 @@ class ClientRegistry:
         clients: dict[str, LLMClient] = {}
         from .mock_client import MockClient
         from .openai_compatible import OpenAIClient
-        from .ollama_adapter import OllamaClient
+        from .ollama_client import OllamaClient
         from .vllm_adapter import VLLMClient
         from .llamacpp_adapter import LlamaCppClient
         from .tgi_adapter import TGIClient

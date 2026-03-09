@@ -6,6 +6,13 @@ models:
     generation_parameters:
       temperature: 0.2
       max_tokens: 512
+  - model_id: llama3_ollama
+    provider_id: ollama
+    model_name: llama3
+    model_version: "3.0"
+    generation_parameters:
+      temperature: 0.2
+      max_tokens: 512
   - model_id: mixtral_local
     provider_id: vllm
     model_name: mixtral

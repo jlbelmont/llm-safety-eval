@@ -11,6 +11,7 @@ providers:
     api_type: ollama
     base_url: http://localhost:11434
     backoff_seconds: 0.5
+    timeout_seconds: 600.0
   - provider_id: vllm
     api_type: vllm
     base_url: http://localhost:8000/v1

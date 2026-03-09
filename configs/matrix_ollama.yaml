@@ -1,7 +1,7 @@
 matrix:
   models:
     - gpt4o_api
-    - mock_safe
+    - llama3_ollama
   prompt_categories:
     - baseline_direct
     - roleplay
@@ -15,7 +15,7 @@ matrix:
   trials: 1
   generation_parameters:
     temperature: [0.2]
-    max_tokens: [2048]
+    max_tokens: [1024]
 
 experiments:
   baseline_vs_decomposition:

@@ -48,6 +48,8 @@ notebooks/_artifacts/
 # ---- Environment / secrets ----
 .env
 .env.*
+.venv/
+.history/
 secrets.yaml
 configs/private.yaml
 
@@ -56,15 +58,64 @@ data/
 datasets/
 downloads/
 
+# ---- Markdown docs (keep only readmes) ----
+*.md
+!README.md
+*.jinja
+
+# ---- Local course/reference materials ----
+projectProgressReport.pdf
+AuthorKit20/
+report.tex
+report.pdf
+report.aux
+report.out
+prompt_sum.md
+prompt_sum*.md
+
+# ---- Local AI drafting / template work ----
+docs/report_generation_prompt.md
+reports/templates/
+ai_drafts/
+ai_exports/
+llm_drafts/
+prompts/private_notes/
+
+# ---- Generic LaTeX artifacts ----
+*.aux
+*.bbl
+*.bcf
+*.blg
+*.fdb_latexmk
+*.fls
+*.lof
+*.lot
+*.nav
+*.run.xml
+*.snm
+*.synctex.gz
+*.toc
+*.vrb
+*.xdv
+
 # ---- Temp files ----
 *.log
 *.tmp
 *.cache
 *.pickle
 *.pkl
+agent/
+codex/
+ai_notes/
+scratch/
+tmp/
+experiments_tmp/
+generated_prompts/
+debug_scripts/
 
 # ---- Report generation artifacts ----
-# Keep templates, sections, .tex sources, and .bib tracked; ignore generated outputs above.
+# Generated outputs are ignored above.
+# Note: ignore rules do not untrack files that are already committed.
 
 # ---- Python build/cache ----
 __pycache__/

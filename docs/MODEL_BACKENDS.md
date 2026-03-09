@@ -14,7 +14,8 @@
 
 ## Switching Backends
 - Select provider in `configs/providers.yaml`.
-- Map models to providers in `configs/models.yaml`.
+- Map models to providers in `configs/models.yaml` (for example, `llama3_ollama` uses the `ollama` provider).
+- Use `configs/matrix_ollama.yaml` for a pilot that compares `gpt4o_api` with `llama3_ollama`.
 - The client registry instantiates adapters per `api_type`; unsupported types fall back to the mock client for safety.
 - Execution guard: network calls happen only if `execute=True` is passed and `LSE_ALLOW_NETWORK=1` is set in the environment. Otherwise adapters return stub responses.
 - Optional metadata: `model_version` (models.yaml) and `provider_notes` (providers.yaml) are captured in snapshots and metadata.

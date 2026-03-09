@@ -10,6 +10,7 @@ from .experiment_matrix import build_matrix
 from .llm_clients.base import ClientRegistry
 from .prompts.loader import load_prompt_suite
 from .transforms.base import apply_transform
+from .adversary.prompt_generator import inject_generated_prompts, prompt_suite_to_yaml
 from .util.ids import new_run_id
 from .util.jsonl import write_jsonl
 from .util.time import utc_now
@@ -45,7 +46,12 @@ class Runner:
         providers_cfg = self._load_yaml(providers_path)
 
         run_id = new_run_id()
-        prompt_suite = load_prompt_suite(Path(config["paths"]["prompt_suite"]))
+        prompt_source = Path(config["paths"]["prompt_suite"])
+        prompt_suite = load_prompt_suite(prompt_source)
+        effective_prompt_suite = inject_generated_prompts(
+            prompt_suite,
+            matrix_cfg.get("generated_prompts"),
+        )
         client_registry = ClientRegistry.from_configs(models_cfg["models"], providers_cfg["providers"])
 
         responses: list[dict[str, Any]] = []
@@ -66,18 +72,18 @@ class Runner:
             model_config = client_registry.get_model_config(cell.model_id)
             client = client_registry.get_client(cell.model_id)
 
-            prompts = prompt_suite.by_category(cell.prompt_category)
+            prompts = effective_prompt_suite.by_category(cell.prompt_category)
             for prompt in prompts:
                 transformed_prompt, transform_meta = apply_transform(cell.transform, prompt.text)
 
                 # Build generation parameters once for call and logging
-                gen_params = {
-                    "temperature": cell.temperature,
-                    "max_tokens": cell.max_tokens,
-                    **model_config.generation_parameters,
-                    "transform": cell.transform,
-                    "transform_meta": transform_meta,
-                }
+                gen_params = self._build_generation_parameters(
+                    model_config.generation_parameters,
+                    cell.temperature,
+                    cell.max_tokens,
+                    cell.transform,
+                    transform_meta,
+                )
 
                 # NOTE: Actual LLM invocation is stubbed unless execute=True and env allows network.
                 result = client.generate(
@@ -139,9 +145,12 @@ class Runner:
         write_jsonl(out_dir / "responses.jsonl", responses)
 
         # Snapshots for reproducibility
-        prompt_src = Path(config["paths"]["prompt_suite"])
+        prompt_src = prompt_source
         write_snapshot(out_dir / "config_snapshot.yaml", base_config_path.read_text())
-        write_snapshot(out_dir / "prompt_snapshot.yaml", prompt_src.read_text())
+        write_snapshot(out_dir / "prompt_snapshot.yaml", prompt_suite_to_yaml(effective_prompt_suite))
+        if matrix_cfg.get("generated_prompts", {}).get("enabled", False):
+            write_snapshot(out_dir / "prompt_source_snapshot.yaml", prompt_src.read_text())
+        write_snapshot(out_dir / "matrix_snapshot.yaml", matrix_path.read_text())
         write_snapshot(out_dir / "providers_snapshot.yaml", providers_path.read_text())
         write_snapshot(out_dir / "models_snapshot.yaml", models_path.read_text())
         write_jsonl(out_dir / "transform_log.jsonl", transform_log)
@@ -153,6 +162,7 @@ class Runner:
             "models_path": str(models_path),
             "providers_path": str(providers_path),
             "prompt_suite_path": str(prompt_src),
+            "generated_prompts_enabled": bool(matrix_cfg.get("generated_prompts", {}).get("enabled", False)),
             "heuristics": {
                 "refusal": "pattern_count",
                 "safety_prefix": "pattern_count",
@@ -167,6 +177,7 @@ class Runner:
         artifact_index = {
             "config_snapshot": str(out_dir / "config_snapshot.yaml"),
             "prompt_snapshot": str(out_dir / "prompt_snapshot.yaml"),
+            "matrix_snapshot": str(out_dir / "matrix_snapshot.yaml"),
             "providers_snapshot": str(out_dir / "providers_snapshot.yaml"),
             "models_snapshot": str(out_dir / "models_snapshot.yaml"),
             "responses": str(out_dir / "responses.jsonl"),
@@ -178,6 +189,8 @@ class Runner:
             "summary_html": str(out_dir / "summary.html"),
             "metadata": str(out_dir / "metadata.json"),
         }
+        if (out_dir / "prompt_source_snapshot.yaml").exists():
+            artifact_index["prompt_source_snapshot"] = str(out_dir / "prompt_source_snapshot.yaml")
         # add hashes where files exist
         indexed_with_hashes = {
             name: {"path": path, "sha256": file_sha256(Path(path)) if Path(path).exists() else None}
@@ -193,3 +206,21 @@ class Runner:
 
         with path.open("r", encoding="utf-8") as f:
             return yaml.safe_load(f) or {}
+
+    @staticmethod
+    def _build_generation_parameters(
+        model_generation_parameters: dict[str, Any],
+        temperature: float,
+        max_tokens: int,
+        transform: str,
+        transform_meta: dict[str, Any],
+    ) -> dict[str, Any]:
+        """Merge generation parameters with matrix-level settings taking precedence."""
+
+        return {
+            **model_generation_parameters,
+            "temperature": temperature,
+            "max_tokens": max_tokens,
+            "transform": transform,
+            "transform_meta": transform_meta,
+        }

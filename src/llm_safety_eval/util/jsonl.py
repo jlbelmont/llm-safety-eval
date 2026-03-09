@@ -11,7 +11,8 @@ def write_jsonl(path: Path, records: Iterable[dict[str, Any]]) -> None:
     path.parent.mkdir(parents=True, exist_ok=True)
     with path.open("w", encoding="utf-8") as f:
         for record in records:
-            f.write(json.dumps(record, ensure_ascii=False) + "\n")
+            # default=str makes datetimes and other non-JSON-native objects serializable
+            f.write(json.dumps(record, ensure_ascii=False, default=str) + "\n")
 
 
 def read_jsonl(path: Path) -> Iterator[dict[str, Any]]:

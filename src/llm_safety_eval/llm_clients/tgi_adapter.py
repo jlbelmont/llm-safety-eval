@@ -21,7 +21,7 @@ class TGIClient(LLMClient):
         require_network(execute)
         self._respect_rate_limit()
         payload = {"inputs": prompt, "parameters": parameters}
-        with httpx.Client(timeout=20.0) as client:
+        with httpx.Client(timeout=self._timeout_seconds(20.0)) as client:
             resp = client.post(f"{self.provider_config.base_url}/generate", json=payload)
             resp.raise_for_status()
             data = resp.json()

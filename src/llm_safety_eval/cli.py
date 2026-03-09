@@ -73,8 +73,20 @@ def label(
 
 
 @app.command()
-def summarize(run_dir: Path = typer.Argument(..., help="Run directory (contains responses.jsonl)")) -> None:
-    report_cli.summarize_run(run_dir)
+def summarize(
+    run_dir: Path = typer.Argument(..., help="Run directory (contains responses.jsonl)"),
+    matrix_config: Path = typer.Option(None, help="Optional matrix config path for experiment-group definitions"),
+    bootstrap_iterations: int = typer.Option(1000, help="Bootstrap iterations for confidence intervals"),
+    confidence_level: float = typer.Option(0.95, help="Bootstrap confidence level"),
+    seed: int = typer.Option(42, help="Bootstrap random seed"),
+) -> None:
+    report_cli.summarize_run(
+        run_dir=run_dir,
+        matrix_config=matrix_config,
+        bootstrap_iterations=bootstrap_iterations,
+        confidence_level=confidence_level,
+        seed=seed,
+    )
 
 
 if __name__ == "__main__":
